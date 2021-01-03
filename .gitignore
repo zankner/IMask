@@ -1,4 +1,3 @@
-
 # Created by https://www.toptal.com/developers/gitignore/api/python,macos,linux,visualstudiocode,jupyternotebooks,vim,sublimetext,emacs
 # Edit at https://www.toptal.com/developers/gitignore?templates=python,macos,linux,visualstudiocode,jupyternotebooks,vim,sublimetext,emacs
 
@@ -300,13 +299,13 @@ tags
 
 ### VisualStudioCode ###
 .vscode/*
-!.vscode/tasks.json
-!.vscode/launch.json
 *.code-workspace
 
 ### VisualStudioCode Patch ###
 # Ignore all local history of files
 .history
 .ionide
+
+*.npz
 
 # End of https://www.toptal.com/developers/gitignore/api/python,macos,linux,visualstudiocode,jupyternotebooks,vim,sublimetext,emacs

@@ -23,13 +23,19 @@ class PositionalEncoding(nn.Module):
 
 
 class VisionTransformer(nn.Module):
-    def __init__(self):
+    def __init__(self, hidden_size, patch_size, model_dim, num_heads,
+                 num_layers, img_size):
         super(VisionTransformer, self).__init__()
-        self.embeddingLayer = nn.Conv2d(3, 64, 16, 16)
-        self.positionalEncoding = PositionalEncoding(64, max_len=196)
+        self.embeddingLayer = nn.Conv2d(3, hidden_size, patch_size, patch_size)
+        self.positionalEncoding = PositionalEncoding(hidden_size,
+                                                     max_len=(img_size //
+                                                              patch_size)**2)
         self.transformerEncoder = nn.TransformerEncoder(
-            nn.TransformerEncoderLayer(64, 8, 64, activation="gelu"), 6)
-        cls_tensor = torch.randn(1, 1, 64)
+            nn.TransformerEncoderLayer(model_dim,
+                                       num_heads,
+                                       model_dim,
+                                       activation="gelu"), num_layers)
+        cls_tensor = torch.randn(1, 1, hidden_size)
         self.cls = nn.Parameter(cls_tensor)
 
     def forward(self, x):

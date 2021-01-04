@@ -309,3 +309,7 @@ tags
 *.npz
 
 # End of https://www.toptal.com/developers/gitignore/api/python,macos,linux,visualstudiocode,jupyternotebooks,vim,sublimetext,emacs
+
+
+# Data dir
+data/

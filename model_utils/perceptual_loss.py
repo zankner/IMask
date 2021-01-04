@@ -22,7 +22,7 @@ class PerceptualLoss(nn.Module):
         y = (y - self.mean) / self.std
         y = self.feature_extractor(y)
         y = F.avg_pool2d(y, 16, 1)
-        y = y.view(1, 64)
+        y = y.view(y.shape[0], 64)
 
         x = x[:, masked_patch, :]
 

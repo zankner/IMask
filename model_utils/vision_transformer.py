@@ -37,12 +37,20 @@ class VisionTransformer(nn.Module):
                                        activation="gelu"), num_layers)
         cls_tensor = torch.randn(1, 1, hidden_size)
         self.cls = nn.Parameter(cls_tensor)
+        mask_token = torch.randn(1, 1, hidden_size)
+        self.mask_token = nn.Parameter(mask_token)
 
-    def forward(self, x):
+    def forward(self, x, unmasked, masked, swapped):
         x = self.embeddingLayer(x)
 
         n, c, w, h = x.shape
         x = torch.reshape(x, [n, h * w, c])
+
+        swapped_embedding_ids = unmasked[:len(swapped)]
+        swapped_embeddings = x[:, swapped_embedding_ids, :].detach()
+        x[:, swapped_embedding_ids, :] = swapped_embeddings
+
+        x[:, masked, :] = self.mask_token
 
         x = self.positionalEncoding(x)
 

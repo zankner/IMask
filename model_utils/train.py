@@ -15,12 +15,13 @@ def _train_step(model, loss_fn, device, train_loader, optimizer, num_patches,
         data, target = data.to(device), target.to(device)
         np.random.shuffle(patches)
         masked_patches = patches[:len(patches) // 2]
-        tokenized, swapped, unchanged = np.split(
+        unmasked = [patch for patch in patches if patch not in masked_patches]
+        tokenized, swapped, _ = np.split(
             masked_patches,
             [int(.8 * len(masked_patches)),
              int(.9 * len(masked_patches))])
         optimizer.zero_grad()
-        output = model(data)
+        output = model(data, unmasked, tokenized, swapped)
         loss = loss_fn(output, data, masked_patches)
         loss.backward()
         optimizer.step()

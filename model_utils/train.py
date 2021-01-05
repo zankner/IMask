@@ -5,10 +5,17 @@ from torchvision import datasets, transforms
 from torch.optim.lr_scheduler import StepLR
 from model_utils.vision_transformer import VisionTransformer
 from model_utils.perceptual_loss import PerceptualLoss
+from model_utils.plot_gradients import plot_grad_flow
 
 
-def _train_step(model, loss_fn, device, train_loader, optimizer, num_patches,
-                epoch):
+def _train_step(model,
+                loss_fn,
+                device,
+                train_loader,
+                optimizer,
+                num_patches,
+                epoch,
+                debug=False):
     patches = list(range(num_patches))
     model.train()
     for batch_idx, (data, target) in enumerate(train_loader):
@@ -24,6 +31,8 @@ def _train_step(model, loss_fn, device, train_loader, optimizer, num_patches,
         output = model(data, unmasked, tokenized, swapped)
         loss = loss_fn(output, data, masked_patches)
         loss.backward()
+        if debug:
+            plot_grad_flow(model.named_parameters())
         optimizer.step()
         if batch_idx % 10 == 0:
             print('Train Epoch: {} [{}/{} ({:.0f}%)]\tLoss: {:.6f}'.format(
@@ -31,7 +40,7 @@ def _train_step(model, loss_fn, device, train_loader, optimizer, num_patches,
                 100. * batch_idx / len(train_loader), loss.item()))
 
 
-def train(config):
+def train(config, debug=False):
     transform = transforms.Compose([
         transforms.ToTensor(),
         transforms.Resize((config.img_size, config.img_size))
@@ -52,5 +61,5 @@ def train(config):
 
     for epoch in range(1, config.epochs + 1):
         _train_step(model, perceptual_loss, "cpu", train_loader, optimizer,
-                    num_patches, epoch)
+                    num_patches, epoch, debug)
         scheduler.step()

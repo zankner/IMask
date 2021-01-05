@@ -5,7 +5,7 @@ from torchvision.models import vgg19
 
 
 class PerceptualLoss(nn.Module):
-    def __init__(self, patch_size, model_dim, img_size):
+    def __init__(self, patch_size, model_dim, img_size, device="cpu"):
         super(PerceptualLoss, self).__init__()
         self.patch_size = patch_size
         self.model_dim = model_dim
@@ -14,8 +14,8 @@ class PerceptualLoss(nn.Module):
         vgg = vgg19(pretrained=True)
         self.feature_extractor = nn.Sequential(
             *list(vgg.features.children())[:3])
-        self.mean = torch.tensor([0.485, 0.456, 0.406]).view(1, 3, 1, 1)
-        self.std = torch.tensor([0.229, 0.224, 0.225]).view(1, 3, 1, 1)
+        self.mean = torch.tensor([0.485, 0.456, 0.406]).view(1, 3, 1, 1).to(device)
+        self.std = torch.tensor([0.229, 0.224, 0.225]).view(1, 3, 1, 1).to(device)
 
     def forward(self, x, y, masked_patches):
         y = (y - self.mean) / self.std

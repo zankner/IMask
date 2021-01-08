@@ -11,13 +11,17 @@ from model_utils.train import train
 import matplotlib as plt
 
 CONFIG = ml_collections.ConfigDict()
-CONFIG.epochs = 100
-CONFIG.batch_size = 32
+CONFIG.epochs = 10
+CONFIG.batch_size = 64
 CONFIG.img_size = 224
-CONFIG.hidden_size = 64
-CONFIG.model_dim = 64
+CONFIG.hidden_size = 512
+CONFIG.model_dim = 512
+CONFIG.output_dim = 64
 CONFIG.num_heads = 8
 CONFIG.num_layers = 8
 CONFIG.patch_size = 16
+CONFIG.weight_decay = 0.1
+CONFIG.ckpt_path = "./checkpoints/checkpoint.pt"
+CONFIG.data_dir = "./data/testing"
 
-train(CONFIG)
+train(CONFIG, True)

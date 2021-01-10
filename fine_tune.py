@@ -7,7 +7,7 @@ from torchvision import datasets, transforms
 from torch.optim.lr_scheduler import StepLR
 from torchvision.models import vgg19
 import ml_collections
-from model_utils.train import train
+from model_utils.fine_tune import fine_tune
 import matplotlib as plt
 
 CONFIG = ml_collections.ConfigDict()
@@ -21,8 +21,13 @@ CONFIG.pool_size = 8
 CONFIG.num_heads = 8
 CONFIG.num_layers = 8
 CONFIG.patch_size = 16
+CONFIG.dense_1_dim = 128
+CONFIG.dense_2_dim = 128
+CONFIG.num_classes = 100
+CONFIG.classifier_dropout = 0.1
 CONFIG.weight_decay = 0.1
 CONFIG.ckpt_path = "./checkpoints/checkpoint.pt"
-CONFIG.data_dir = "./data/training"
+CONFIG.vision_transformer_ckpt_path = "./checkpoints/perceptual_loss_ckeckpoint.pt"
+CONFIG.data_dir = "./data/cifar100"
 
-train(CONFIG, False)
+fine_tune(CONFIG, False)

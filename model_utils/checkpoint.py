@@ -22,3 +22,11 @@ def load_ckp(ckpt_path, model, optimizer, scheduler):
     scheduler.load_state_dict(checkpoint['scheduler'])
     print("=> Model loaded sucesfully!")
     return model, optimizer, scheduler, checkpoint['epoch']
+
+
+def load_pretrained_ckpt(ckpt_path, model):
+    print("=> Loading transformer from", ckpt_path)
+    checkpoint = torch.load(ckpt_path)
+    model.load_state_dict(checkpoint['model_dict'])
+    print("=> Transformer loaded sucesfully!")
+    return model

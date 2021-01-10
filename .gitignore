@@ -313,3 +313,5 @@ tags
 
 # Data dir
 data/
+
+*.pt

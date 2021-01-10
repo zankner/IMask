@@ -107,7 +107,7 @@ def train(config, resume_training=False, debug=False):
                            weight_decay=config.weight_decay)
     scheduler = StepLR(optimizer, step_size=1)
     perceptual_loss = PerceptualLoss(config.patch_size, config.output_dim,
-                                     config.img_size, device)
+                                     config.pool_size, config.img_size, device)
     perceptual_loss.to(device)
 
     num_patches = (config.img_size // config.patch_size)**2

@@ -58,5 +58,6 @@ class VisionTransformer(nn.Module):
         x = torch.cat((self.cls.repeat(n, 1, 1), x), 1)
 
         x = self.transformerEncoder(x)
+
         x = self.outputTransformation(x)
         return x

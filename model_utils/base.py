@@ -89,7 +89,7 @@ def _train_step(model,
             print('Train Epoch: {} [{}/{} ({:.0f}%)]\tLoss: {:.6f}'.format(
                 epoch, batch_idx * len(data), len(train_loader.dataset),
                 100. * batch_idx / len(train_loader), loss.item()))
-            train_writer.add_scalar("loss", losses.avg,
+            train_writer.add_scalar("loss", loss.item(),
                                     ((epoch - 1) * len(train_loader.dataset)) +
                                     (batch_idx * len(data)))
 

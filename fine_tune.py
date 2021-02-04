@@ -16,7 +16,7 @@ CONFIG.batch_size = 64
 CONFIG.img_size = 224
 CONFIG.hidden_size = 512
 CONFIG.model_dim = 512
-CONFIG.output_dim = 128
+CONFIG.output_dim = 9
 CONFIG.pool_size = 8
 CONFIG.num_heads = 8
 CONFIG.num_layers = 8
@@ -27,7 +27,7 @@ CONFIG.num_classes = 100
 CONFIG.classifier_dropout = 0.1
 CONFIG.weight_decay = 0.1
 CONFIG.ckpt_path = "./checkpoints/checkpoint.pt"
-CONFIG.vision_transformer_ckpt_path = "./checkpoints/perceptual_loss_ckeckpoint.pt"
+CONFIG.vision_transformer_ckpt_path = "./checkpoints/pixel_loss_checkpoint.pt"
 CONFIG.data_dir = "./data/cifar100"
 
 fine_tune(CONFIG, False)

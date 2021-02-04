@@ -63,7 +63,7 @@ def _train_step(model,
                         len(train_loader.dataset),
                         100. * batch_idx / len(train_loader), loss.item(),
                         acc1[0], acc5[0]))
-            train_writer.add_scalar("loss", losses.avg,
+            train_writer.add_scalar("loss", loss.item(),
                                     ((epoch - 1) * len(train_loader.dataset)) +
                                     (batch_idx * len(data)))
 
@@ -154,7 +154,7 @@ def fine_tune(config, resume_training=False, debug=False):
     vision_transformer.to(device)
     vision_transformer = load_pretrained_ckpt(
         config.vision_transformer_ckpt_path, vision_transformer)
-    model = Classifier(vision_transformer, config.output_dim,
+    model = Classifier(vision_transformer, config.model_dim,
                        config.dense_1_dim, config.dense_2_dim,
                        config.num_classes, config.classifier_dropout)
     model.to(device)

@@ -41,7 +41,7 @@ class VisionTransformer(nn.Module):
                                        activation="gelu"), num_layers)
         self.outputTransformation = nn.Linear(model_dim, output_dim)
 
-    def forward(self, x, unmasked, masked, swapped):
+    def forward(self, x, unmasked, masked, swapped, fine_tune=False):
         x = self.embeddingLayer(x)
 
         n, c, w, h = x.shape
@@ -59,5 +59,6 @@ class VisionTransformer(nn.Module):
 
         x = self.transformerEncoder(x)
 
-        x = self.outputTransformation(x)
+        if fine_tune:
+            x = self.outputTransformation(x)
         return x
